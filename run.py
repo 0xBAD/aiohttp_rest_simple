@@ -1,14 +1,15 @@
 import asyncio
 from aiohttp import web
 from routes import setup_routes
-from tasks import Task
+from tasks import queue
 
 
 async def listen_to_queue(app):
     try:
-
-        task = Task.get_instance().queue
-        print("Task: ", task)
+        while True:
+            await asyncio.sleep(3.0)
+            task = await queue.get()
+            print("Task: ", task)
     except asyncio.CancelledError:
         pass
 
